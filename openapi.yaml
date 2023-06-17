@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+    title: Steam Reviews Extractor Plugin
+    description: A plugin that allows the user to get reviews for the game in Steam to summarize them after.
+    version: 'v1'
+servers:
+    -   url: http://localhost:3000
+paths:
+    /reviews/{gameid}:
+        get:
+            operationId: getReviews
+            summary: Get the list of reviews that match the filters specified by the args. Display results using markdown tables.
+            parameters:
+                -   in: path
+                    name: gameid
+                    schema:
+                        type: integer
+                    required: true
+                    description: The ID of the game
+                -   in: query
+                    name: limit
+                    schema:
+                        type: integer
+                    description: The number of reviews to return(default 20, max 100)
+                -   in: query
+                    name: dayrange
+                    schema:
+                        type: integer
+                    description: The interval from now to N days ago in which reviews are searched(max 365).
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getReviewsResponse"
+components:
+    schemas:
+        getReviewsResponse:
+            type: object
+            properties:
+                reviews:
+                    type: array
+                    items:
+                        type: string
+                    description: the list of reviews
