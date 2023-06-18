@@ -4,7 +4,7 @@ info:
     description: A plugin that allows the user to get reviews for the game in Steam to summarize them after.
     version: 'v1'
 servers:
-    -   url: http://localhost:3000
+    -   url: https://steam-reviews-extractor--justrocket.repl.co
 paths:
     /reviews/{gameid}:
         get:
@@ -39,8 +39,14 @@ components:
         getReviewsResponse:
             type: object
             properties:
+                game_description:
+                    type: string
+                    description: the description of the game
                 reviews:
                     type: array
                     items:
                         type: string
                     description: the list of reviews
+                release_date:
+                    type: string
+                    description: the release date of the game

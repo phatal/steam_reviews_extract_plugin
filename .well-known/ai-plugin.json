@@ -2,8 +2,8 @@
     "schema_version": "v1",
     "name_for_human": "Steam Reviews Extractor",
     "name_for_model": "sre",
-    "description_for_human": "Get steam reviews for the requested game and process them as you want, make summary's, extract pros and cons, etc.",
-    "description_for_model": "Plugin for getting of user reviews of games in Steam. You can read user reviews for game and making summary of them.",
+    "description_for_human": "Get steam reviews and general information for the requested game and process them as you want, make summary's, extract pros and cons, etc.",
+    "description_for_model": "Plugin for getting of user reviews and general information about the game in Steam. In the first paragraph provide user a little general information about the game, as if your target is to sale game to user, in the second paragraph provide summary of reviews and in the end add how many years ago the game released.",
     "auth": {
       "type": "none"
     },
@@ -16,4 +16,4 @@
     "contact_email": "phatal1988@gmail.com",
     "legal_info_url": "http://localhost:5003/legal"
   }
-  
+

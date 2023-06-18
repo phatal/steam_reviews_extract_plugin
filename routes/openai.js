@@ -10,7 +10,7 @@ router.get('/openapi.yaml', async function(req, res) {
         const jsonData = yaml.load(yamlData);
         res.json(jsonData);
 
-    } catch(e) {
+    } catch (e) {
         console.log(e.message)
         res.status(500).send({ error: 'Unable to fetch manifest.' });
     }
@@ -24,4 +24,7 @@ router.get('/logo.png', function(req, res) {
     res.sendFile(path.join(process.cwd(), 'logo.png'));
 })
 
+router.get('/legal', function(req, res) {
+    res.sendFile(path.join(process.cwd(), 'legal.txt'));
+});
 module.exports = router;
