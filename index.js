@@ -7,7 +7,7 @@ const app = express();
 const PORT = 3000;
 
 // Setting CORS to allow chat.openapi.com is required for ChatGPT to access your plugin
-app.use(cors({ origin: [`http://localhost:${PORT}`, 'https://chat.openai.com'] }));
+app.use(cors({ origin: [`https://steam-reviews-extractor--justrocket.repl.co`, 'https://chat.openai.com'] }));
 app.use(express.json());
 
 // Simple request logging to see if your plugin is being called by ChatGPT
