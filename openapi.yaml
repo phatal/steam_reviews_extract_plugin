@@ -39,6 +39,9 @@ components:
         getReviewsResponse:
             type: object
             properties:
+                about:
+                    type: string
+                    description: the description of the game
                 reviews:
                     type: array
                     items:

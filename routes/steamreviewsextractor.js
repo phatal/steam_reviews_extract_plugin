@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const getReviewsUrl = 'https://store.steampowered.com/appreviews';
+const getAppDetailsUrl = 'https://store.steampowered.com/api/appdetails';
 let limit = null;
 
 getReviews = async function(req, res) {
@@ -15,11 +16,15 @@ getReviews = async function(req, res) {
     }else {
         requestString = `${getReviewsUrl}/${gameid}?json=1&num_per_page=100&day_range=${dayrange}`;
     }
+    let appDetailsString = `${getAppDetailsUrl}?appids=${gameid}&filters=basic,release_date`;
     let rawReviews = await fetchReviews(requestString);
+    let appDetailsResponse = await fetch(appDetailsString);
+    const appDetails = await appDetailsResponse.json();
     const reviews = rawReviews.map((elem) => {
         return { review: elem.review };
     })
-    res.json(JSON.stringify(reviews));
+    let aboutString = appDetails[gameid]?.success ? appDetails[gameid]?.data?.detailed_description : '';
+    res.json(JSON.stringify({ about: aboutString, reviews: reviews }));
 }
 
 async function fetchReviews(url, cursor = '*', reviews = []) {
