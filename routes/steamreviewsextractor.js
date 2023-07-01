@@ -5,16 +5,14 @@ const getAppDetailsUrl = 'https://store.steampowered.com/api/appdetails';
 let limit = null;
 
 getReviews = async function(req, res) {
-    console.log('req.params: ', req.params);
-    console.log('req.query: ', req.query);
     const { gameid } = req.params;
     limit = req.query.limit !== null ? parseInt(req.query.limit) : 20;
     const dayrange = req.query.dayrange !== null ? parseInt(req.query.dayrange) : null;
     let requestString;
-    if(!dayrange){
-        requestString = `${getReviewsUrl}/${gameid}?json=1&num_per_page=100`;
-    }else {
-        requestString = `${getReviewsUrl}/${gameid}?json=1&num_per_page=100&day_range=${dayrange}`;
+    if (!dayrange) {
+        requestString = `${getReviewsUrl}/${gameid}?json=1&num_per_page=30`;
+    } else {
+        requestString = `${getReviewsUrl}/${gameid}?json=1&num_per_page=30&day_range=${dayrange}`;
     }
     let appDetailsString = `${getAppDetailsUrl}?appids=${gameid}&filters=basic,release_date`;
     let rawReviews = await fetchReviews(requestString);
@@ -23,13 +21,13 @@ getReviews = async function(req, res) {
     const reviews = rawReviews.map((elem) => {
         return { review: elem.review };
     })
-    let aboutString = appDetails[gameid]?.success ? appDetails[gameid]?.data?.detailed_description : '';
-    res.json(JSON.stringify({ about: aboutString, reviews: reviews }));
+    let about = appDetails[gameid]?.success ? appDetails[gameid]?.data?.detailed_description : '';
+    res.json(JSON.stringify({ about, reviews }));
 }
 
 async function fetchReviews(url, cursor = '*', reviews = []) {
     const visitedCursors = new Set(); // Хранилище для посещенных значений cursor
-
+    console.log('visitedCursors: ', visitedCursors);
     while (!visitedCursors.has(cursor)) {
         visitedCursors.add(cursor);
         let fullUrl = url + `&cursor=${encodeURIComponent(cursor)}`;
@@ -39,10 +37,11 @@ async function fetchReviews(url, cursor = '*', reviews = []) {
         // Получение массива отзывов из текущего ответа и добавление к существующему массиву
         const currentReviews = data.reviews;
         reviews.push(...currentReviews);
-        if(reviews.length >= limit) {
+        if (reviews.length >= limit) {
             console.log('Получено необходимое число отзывов');
             break;
         }
+        reviews = reviews.slice(0, limit);
         // Получение нового значения cursor из ответа
         cursor = data.cursor;
 
