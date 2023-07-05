@@ -9,11 +9,11 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://steam-reviews-extractor--justrocket.repl.co/openapi.yaml",
+    "url": "http://localhost:3000/openapi.yaml",
     "is_user_authenticated": false
   },
-  "logo_url": "https://steam-reviews-extractor--justrocket.repl.co/logo.png",
+  "logo_url": "http://localhost:3000/logo.png",
   "contact_email": "phatal1988@gmail.com",
-  "legal_info_url": "https://steam-reviews-extractor--justrocket.repl.co/legal"
+  "legal_info_url": "http://localhost:5003/legal"
 }
 
