@@ -27,7 +27,6 @@ getReviews = async function(req, res) {
 
 async function fetchReviews(url, cursor = '*', reviews = []) {
     const visitedCursors = new Set(); // Хранилище для посещенных значений cursor
-    console.log('visitedCursors: ', visitedCursors);
     while (!visitedCursors.has(cursor)) {
         visitedCursors.add(cursor);
         let fullUrl = url + `&cursor=${encodeURIComponent(cursor)}`;
@@ -38,7 +37,6 @@ async function fetchReviews(url, cursor = '*', reviews = []) {
         const currentReviews = data.reviews;
         reviews.push(...currentReviews);
         if (reviews.length >= limit) {
-            console.log('Получено необходимое число отзывов');
             break;
         }
         reviews = reviews.slice(0, limit);
@@ -47,7 +45,6 @@ async function fetchReviews(url, cursor = '*', reviews = []) {
 
         // Проверка на повторение значения cursor
         if (visitedCursors.has(cursor)) {
-            console.log('Значение cursor повторилось:', cursor);
             break;
         }
     }
