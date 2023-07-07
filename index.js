@@ -1,7 +1,19 @@
+const https = require('https');
+const fs = require('fs');
+
 const express = require('express');
 const cors = require('cors');
 const srsRouter = require('./routes/steamreviewsextractor');
 const openaiRoutes = require('./routes/openai');
+
+const options = {
+    key: fs.readFileSync('./certs/private.key'),
+    cert: fs.readFileSync('./certs/www_hprnv_pro_2024_02_04.crt'),
+    ca: [
+        fs.readFileSync('./certs/root_pem_globalsign_ssl_dv_free_1.crt'),
+        fs.readFileSync('./certs/your-root-certificate.pem')
+    ]
+};
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +34,12 @@ app.use(openaiRoutes);
 // The dummy steamreviewrsextractor API
 app.use('/reviews', srsRouter);
 
+https.createServer(options, app).listen(PORT, () => {
+    console.log(`Plugin server listening on port ${PORT}`)
+});
+
+/*
 app.listen(PORT, () => {
     console.log(`Plugin server listening on port ${PORT}`);
 });
+*/
